@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+:root{
+    --clr-m: #3d85f8;
+    --clr-white: #fff;
+    --clr-p-2: rgba(48, 3, 48, 0.395);
+    --bg-body: rgba(224, 217, 224, 0.882);
+    --clr-cream: #fffdd0;
+    --clr-grey: grey;
+    --clr-blue: rgb(241, 246, 255);
+    --clr-dark: #000000df;
+
+    --ff-1:  'Poppins', sans-serif;
+    --ff-2: 'Montserrat', sans-serif;
+    --ff-3:  'Lato', sans-serif;
+    --fw-regular: 400;
+    --fw-bold: 700;
+    --fw-medium: 500;
+
+    
+}
+ *, *::before, *::after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/*
+body *, body *::after, body *::before{
+   display: block;
+} 
+*/
+.nav-item-share-btn, .nav-item-upload-btn{
+    align-self: center;
+   justify-self: center;
+}
+
+.icon{
+    height: 1.7rem;
+    width: 1.7rem;
+}
+
+
+.navbar{
+    background-color: var(--clr-white);
+    position:sticky;
+    top: 0;
+    padding-inline: 1.4rem;
+    z-index: 1000;
+}
+
+.user{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.title-div{
+    background-color: var(--clr-blue);
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.myuploads-main{
+ padding: 1.3rem;
+ display: flex;
+ flex-direction: column;
+ gap: 2rem;
+ 
+}
+
+.copytd{
+display: flex;
+flex-direction: row;
+gap: 0.2rem;
+}
+
+.copyBtn{
+    min-width: 5.5rem;
+}
+
+.message{
+    display: none;
+padding: 1px 5px;
+background-color: var(--clr-dark);
+border-radius: 4px;
+color: var(--clr-white);
+align-self: start;
+}
+
+.no-uploads-alert{
+    background-color: var(--clr-blue);
+}
+
+table{
+    font-family: var(--ff-3);
+}
+
+.deleting{
+    position: relative;
+    padding-left: 2px;
+}
+
+.deleting:before{
+    position: absolute;
+    content: "";
+    left: 3rem;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid;
+    border-color: white transparent white transparent;
+    animation: rotate 1s infinite;
+}
+
+
+@keyframes rotate {
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 1115px){
+    .table-outer-div{
+        overflow-x:auto;
+    }
+
+    .table-outer-inner-div{
+        min-width: 70rem;
+        
+       }
+
+    .sticky-side{
+        position: sticky;
+        left: 2px;
+        width: 2rem;
+        z-index: 999;
+        opacity: 100%;
+       
+    }
+}
+
+@media (min-width: 521px){
+    .sticky-side{
+        width: 10rem;
+    }
+}
+
+@media (min-width: 598px){
+    .sticky-side{
+        width: 20rem;
+    }
+}

@@ -1,0 +1,90 @@
+
+
+
+/* .btn{
+    width: 16rem;
+} */
+
+
+
+/* .upload-div{
+    width: 28rem;
+} */
+
+.alert{
+    padding: 0.3rem;
+}
+
+.share-btn,
+.copy-btn{
+    padding: 0.2rem;
+    width: 5rem;
+}
+
+
+.no-uploads{
+    margin-top: 5rem;
+    border-radius: 1rem;
+}
+
+/* table{
+    margin: 6rem 3rem;
+    width: 100%;
+} */
+
+/* .welcomeBtns{
+    gap: 3rem;
+}
+
+.uploadPageBtns{
+    width: 8rem;
+} */
+
+
+/* .logout-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+} */
+
+
+/* .navbar-collapse{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+} */
+
+.navbar-collapse{
+    text-align: center;
+}
+
+.nav-link{
+    font-size: 1.3rem;
+}
+
+/*when the sign in button is clicked, a loading icon shows */
+.signing-up{
+    position: relative;
+    padding-left: 20px;
+}
+
+.signing-up:before{
+    position: absolute;
+    content: "";
+    left: 10rem;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid;
+    border-color: black transparent black transparent;
+    animation: rotate 1s infinite;
+}
+
+@keyframes rotate {
+    to{
+        transform: rotate(360deg);
+    }
+}

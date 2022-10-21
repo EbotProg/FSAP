@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+:root{
+    --clr-m: #fff;
+    --clr-p-2: rgba(48, 3, 48, 0.395);
+    --bg-body: rgba(224, 217, 224, 0.882);
+    --clr-white: white;
+    --clr-cream: #fffdd0;
+    --clr-grey: grey;
+    --clr-blue: #f6f9fd;
+
+
+    --ff-1:  'Poppins', sans-serif;
+    --ff-2: 'Montserrat', sans-serif;
+    --fw-regular: 400;
+    --fw-bold: 700;
+    --fw-medium: 500;
+
+    /* font-family: var(--ff-2); */
+}
+*, *::before, *::after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body *, body *::after, body *::before{
+    display: block;
+}
+
+/* 
+.logout-btn{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+} */
+
+.navbar{
+    background-color: var(--clr-m);
+    position:sticky;
+    top: 0;
+    padding-inline: 1.4rem;
+}
+
+.nav-link{
+    font-weight: var(--fw-medium);
+    /* color: var(--clr-white); */
+}
+
+.welcome-container{
+    background-color: var(--clr-blue);
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.welcome-main{
+    padding: 1rem 0.5rem;
+    /* background-color: var(--clr-blue); */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.username{
+    display: inline-block;
+    font-weight: var(--fw-bold);
+    font-style: italic;
+}
+
+.title{
+    font-weight: var(--fw-medium);
+}
+
+
+
+
+.small-message{
+font-weight: var(--fw-regular);
+}
+
+.welcome-btns{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.add-upload-btn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: var(--fw-medium);
+    padding: 1.2rem;
+    font-size: 1.5rem;
+    /* width: 15rem; */
+}
+.add-upload-btn:hover{
+    background-color: var(--clr-blue);
+}
+
+/* .icon{
+    width: 3rem;
+    height: 3rem;
+} */
+
+.welcome-icons{
+    width: 3rem;
+    height: 3rem;
+}
+
+
+/* body{
+    display: flex;
+    flex-direction: column;
+
+} */
+
+footer{
+    align-self:baseline;
+    width: 100%;
+}
+
+
+@media (min-width: 620px){
+    .welcome-btns{
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .add-upload-btn{
+        width: 40%;
+        height: 50vh;
+    }
+}
