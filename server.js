@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const { connectToDb, getDb } = require('./db');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const path = require('path');
 const multer = require('multer');
 const { ObjectId } = require('mongodb');
