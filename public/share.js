@@ -7,21 +7,21 @@
 // let pr = document.querySelector('.pr');
 let sharingLoader = document.querySelector('.sharing');
 let shareBtnFirstText = document.querySelector('.share-btn-first-text');
-let cancelBtn = document.getElementById('cancel-btn');
+// let cancelBtn = document.getElementById('cancel-btn');
 let shareBtn = document.getElementById('share-btn');
 // let uploading = document.querySelector('.uploading');
 let shareForm = document.getElementById('share-form');
 
 
 
-cancelBtn.onclick = () =>{
-    window.location.reload(); 
-    cancelBtn.classList.add('disabled');
+// cancelBtn.onclick = () =>{
+//     window.location.reload(); 
+//     cancelBtn.classList.add('disabled');
     
-    }
+//     }
 
     shareForm.onsubmit = () =>{
-        cancelBtn.classList.remove('disabled');
+        // cancelBtn.classList.remove('disabled');
         sharingLoader.classList.remove('d-none');
         shareBtnFirstText.classList.add('d-none');
     }
