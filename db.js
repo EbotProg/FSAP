@@ -6,7 +6,7 @@ const { MongoClient } = require('mongodb');
 let dbConnection;
 module.exports = {
     connectToDb: (cb) => {
-    MongoClient.connect(oldUri)
+    MongoClient.connect(newUri)
     .then((client)=>{
         dbConnection = client.db('FS_app');
         return cb();
