@@ -1314,7 +1314,7 @@ db.collection('files')
 //   })
 // })
 
-app.get('/convertFromOffice', (req, res)=>{
+app.get('/convertFromOffice', logInVerification, (req, res)=>{
   res.render('convertToPdf', {title: 'convert'});
 })
 
@@ -1365,7 +1365,8 @@ console.log(JSON.stringify(file));
     }else{
       // res.setHeader('Content-Type', 'application/pdf');
       console.log(2);
-      res.download(outputPath, `${file.originalname}.pdf`);
+      let arr = file.originalname.split('.');
+      res.download(outputPath, `${arr[0]}.pdf`);
       // res.end(data);
     }
   })
