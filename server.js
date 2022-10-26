@@ -1332,7 +1332,8 @@ console.log(typeof filename)
       res.end(err);
     }else{
       res.setHeader('Content-Type', 'application/pdf');
-      console.log(2)
+      console.log(2);
+      res.download(outputPath, filename);
       res.end(data);
     }
   })
