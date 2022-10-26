@@ -14,7 +14,10 @@ const serveIndex = require('serve-index');// serving files
 const fs = require('fs');
 // const bodyParser = require('body-parser');
 // const urlencodedParser = bodyParser.urlencoded({extended: false})
-const upload = multer({ dest: 'uploads'})
+let storage = multer.diskStorage({ dest: 'files',
+filename: (req, file, cb)=>{ cb(null, `${file.originalname}`)}})
+const upload = multer({dest: 'uploads'});
+const upload1 = multer({storage});
 //testing file converter
 const {mimeType} = require('./mimeTypes');
 const { PDFNet } = require('@pdftron/pdfnet-node');
@@ -414,7 +417,7 @@ let month = date.getMonth();
 let year  = date.getFullYear();
 let filesInfo = req.files;
 
-
+console.log(req.files);
 
  filesInfo.forEach(async (file) => {
 
@@ -448,6 +451,7 @@ let filesInfo = req.files;
     password: await bcrypt.hash(req.body.password, 10),
     noPassword: noPassword,
     filePath: file.path,
+    uploadName: file.filename,
     originalName: file.originalname,
     size: file.size,
     uploadDate:  `${day} - ${month} - ${year}`,
@@ -560,6 +564,7 @@ let filesInfo = req.files;
     password: await bcrypt.hash(req.body.password, 10),
     noPassword: noPassword,
     filePath: file.path,
+    uploadName: file.filename,
     originalName: file.originalname,
     size: file.size,
     uploadDate:  `${day} - ${month} - ${year}`,
@@ -866,7 +871,7 @@ app.get('/myUploads', logInVerification, (req, res)=>{
   .find({uploadedBy: req.session.user})
   .forEach(file =>{ files.push(file)})
   .then(()=>{
-    console.log('files: '+ files);
+    console.log('files: '+ JSON.stringify(files));
     // console.log('file id: '+ files[0]._id)
     console.log(files !== []);
     res.render('myUploads', {title: 'My Uploads', files, port})
@@ -1309,13 +1314,40 @@ db.collection('files')
 //   })
 // })
 
+app.get('/convertFromOffice', (req, res)=>{
+  res.render('convertToPdf', {title: 'convert'});
+})
 
-app.get('/convertFromOffice/:filename', (req, res)=>{
-  let filename  = req.params.filename;
+app.post('/convertFromOffice', upload1.single('file'), (req, res)=>{
+let file = req.file;
+console.log(JSON.stringify(file));
 
-console.log(typeof filename)
-  const inputPath = path.resolve(__dirname, `./files/${filename}`);
-  const outputPath = path.resolve(__dirname, `./files/${filename}.pdf`);
+  // db.collection('files')
+  // .findOne({uploadName: req.params.filename})
+  // .then(async (result)=>{
+  //   if(result !== null){
+  //     req.session.convertInfo = {
+  //       originalName: result.originalName,
+  //       id: result._id
+  //      }
+    
+      
+     
+  
+
+  //   }else{
+  //     res.send('No file')
+  //   }
+  // })
+  // .catch(err=>{
+
+  //   res.render('shareSingle', {title: 'Share', link: `http://localhost:${port}/file/${req.params.id}`})
+  // })
+
+
+
+  const inputPath = path.resolve(file.destination, file.originalname);
+  const outputPath = path.resolve(file.destination, `${file.originalname}.pdf`);
 
   const convertToPdf = async () =>{
     const pdfdoc = await PDFNet.PDFDoc.create();
@@ -1333,7 +1365,7 @@ console.log(typeof filename)
     }else{
       // res.setHeader('Content-Type', 'application/pdf');
       console.log(2);
-      res.download(outputPath, `${filename}.pdf`);
+      res.download(outputPath, `${file.originalname}.pdf`);
       // res.end(data);
     }
   })
@@ -1342,4 +1374,12 @@ console.log(typeof filename)
     console.log(3)
     res.end(JSON.stringify(err));
   })
+
+
+
+
+
+
+
+
 })
