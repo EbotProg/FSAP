@@ -1331,10 +1331,10 @@ console.log(typeof filename)
       console.log(1)
       res.end(err);
     }else{
-      res.setHeader('Content-Type', 'application/pdf');
+      // res.setHeader('Content-Type', 'application/pdf');
       console.log(2);
-      res.download(outputPath, filename);
-      res.end(data);
+      res.download(outputPath, `${filename}.pdf`);
+      // res.end(data);
     }
   })
   }).catch(err=>{
