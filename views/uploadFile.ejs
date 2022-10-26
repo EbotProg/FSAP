@@ -1,4 +1,19 @@
-<%- include('header') -%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/registration.css">
+    <link rel="stylesheet" href="/styles/login.css">
+    <link rel="stylesheet" href="/styles/welcome.css">
+    <link rel="stylesheet" href="/styles/upload.css">
+    <link rel="stylesheet" href="/styles/all.css">
+</head>
+<body>
 
 <nav class="navbar navbar-expand-lg shadow">
     <div class="navbar-container container-fluid">
@@ -96,7 +111,7 @@
                             <input type="file" class="form-control" name="files" id="files" multiple required>
                         </div>
                         <div class="form-group">
-                          <button id="share-btn" class="btn btn-primary upload-and-share-btn"><span class="share-btn-first-text">Share</span><span class="sharing d-none">Please wait...<br>sending</span></button>
+                          <button id="share-btn" class="btn upload-and-share-btn bottom-btn"><span class="share-btn-first-text">Share</span><span class="sharing d-none">Please wait...<br>sending</span></button>
 
                         </div>
                     </div>

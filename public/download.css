@@ -2,16 +2,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 :root{
     --clr-p: #3d85f8;
-    --clr-white: #fff;
     --clr-p-2: rgba(48, 3, 48, 0.395);
     --bg-body: rgba(224, 217, 224, 0.882);
+    --clr-neutral-white:hsl(0, 0%, 100%);
+    /* --clr-neutral-magenta-100:hsl(300, 24%, 96%); */
+    --clr-neutral-magenta-100:#f6f3f3;
+    --clr-primary-magenta-900:#502050;
+    --clr-primary-magenta-400:#774177;
+    --clr-white: #fff;
 
     --ff-1:  'Poppins', sans-serif;
     --ff-2: 'Montserrat', sans-serif;
     --fw-regular: 400;
     --fw-bold: 700;
     --fw-medium: 500;
-
     /* font-family: var(--ff-2); */
 }
 *, *::before, *::after{
@@ -42,8 +46,8 @@ body *, body *::after, body *::before{
     gap: 2rem;
     background-color: #fff;
     border-radius: 10px;
-    border-bottom:4px solid var(--clr-p);
-    border-top:4px solid var(--clr-p);
+    border-bottom:4px solid var(--clr-neutral-magenta-100);
+    border-top:4px solid var(--clr-neutral-magenta-100);
     box-shadow: 2px 2px 10px var(--bg-body);
 }
 .login-image{
@@ -84,7 +88,7 @@ body *, body *::after, body *::before{
         justify-content: center;
         align-items: center;
         width: 40%;
-        background-color: var(--clr-p);
+        background-color: var(--clr-neutral-magenta-100);
         
     }
 }

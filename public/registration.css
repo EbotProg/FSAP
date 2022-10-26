@@ -82,15 +82,7 @@ body *, body *::after, body *::before{
 
 
 
-.sign-up-btn{
-    border-color: var(--clr-primary-magenta-400);
-    background-color: var(--clr-primary-magenta-400);
-}
-.sign-up-btn:hover{
-    background-color: var(--clr-primary-magenta-900);
-    border-color: var(--clr-primary-magenta-900);
 
-}
 .disabled{
     background-color: var(--clr-primary-magenta-900) !important;
     border-color: 2px solid var(--clr-primary-magenta-900) !important;

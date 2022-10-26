@@ -7,6 +7,7 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/download.css">
+    <link rel="stylesheet" href="/styles/all.css">
 
 </head>
 <body>
@@ -45,7 +46,7 @@
                 
               
                <div class="form-group">
-                <button type="submit" class="btn btn-primary w-100">Download</button>
+                <button type="submit" class="btn w-100 bottom-btn">Download</button>
 
                </div>
             </div>
@@ -53,10 +54,10 @@
             
         </form>
         <% if(locals.authenticatedUser == false){ %>
-            <p>Do you want to know more about FSAP?<a href="/">Visit our site</a></p>
+            <p class="py-2 bottom-msg">Do you want to know more about FSAP?<a class="link-msg" href="/">Visit our site</a></p>
         <% } %>
         <% if(locals.authenticatedUser == true){ %>
-            <p><a href="/welcome">return to FSAP</a></p>
+            <p class="py-2 bottom-msg"><a class="link-msg" href="/welcome">return to FSAP</a></p>
             <% } %>
        
 </div>

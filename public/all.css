@@ -34,3 +34,26 @@
     -webkit-box-shadow: none;
 }
 /********/
+
+
+.bottom-btn{
+    border-color: var(--clr-primary-magenta-400);
+    background-color: var(--clr-primary-magenta-400);
+    color: var(--clr-white);
+}
+.bottom-btn:hover{
+    background-color: var(--clr-primary-magenta-900);
+    border-color: var(--clr-primary-magenta-900);
+    font-weight: var(--fw-medium);
+    color: var(--clr-white);
+}
+
+.link-msg{
+    color: var(--clr-primary-magenta-900);
+    text-decoration: none;
+}
+
+.link-msg:hover{
+    color: var(--clr-primary-magenta-900);
+    text-decoration: none;
+}

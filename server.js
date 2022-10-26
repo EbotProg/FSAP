@@ -15,7 +15,9 @@ const fs = require('fs');
 // const bodyParser = require('body-parser');
 // const urlencodedParser = bodyParser.urlencoded({extended: false})
 const upload = multer({ dest: 'uploads'})
-
+//testing file converter
+const {mimeType} = require('./mimeTypes');
+const { PDFNet } = require('@pdftron/pdfnet-node');
 
 //middleware to serve uploaded files
 app.use('/server', 
@@ -1274,4 +1276,69 @@ db.collection('files')
  });
  res.redirect('/myUploads')
 })
+})
+
+
+
+
+
+//test route to convert files from docx to pdf
+// app.get('/files', (req, res)=>{
+//   const inputPath = path.resolve(__dirname, 'files');
+//   fs.readdir(inputPath, function(err, files){
+//     if(err){
+//       return console.log('Unable to scan directory: ' + err);
+//     }
+//     res.setHeader('Content-Type', mimeType['.json']);
+//     res.end(JSON.stringify(files));
+//   })
+// })
+
+
+// app.get('/files/:filename', (req, res)=>{
+//   const inputPath = path.resolve(__dirname, filesPath, req.params.filename);
+//   fs.readFile(inputPath, function(err, data){
+//     if(err) {
+//       res.statusCode = 500;
+//       res.end(`Error getting the file: ${err}.`);
+//     }else{
+//       const ext = path.parse(inputPath).ext;
+//       res.setHeader('Content-Type', mimeType[ext] || 'text/plain');
+//       res.end(data);
+//     }
+//   })
+// })
+
+
+app.get('/convertFromOffice/:filename', (req, res)=>{
+  let filename  = req.params.filename;
+
+console.log(typeof filename)
+  const inputPath = path.resolve(__dirname, `./files/${filename}`);
+  const outputPath = path.resolve(__dirname, `./files/${filename}.pdf`);
+
+  const convertToPdf = async () =>{
+    const pdfdoc = await PDFNet.PDFDoc.create();
+    await pdfdoc.initSecurityHandler();
+    await PDFNet.Convert.toPdf(pdfdoc, inputPath);
+    pdfdoc.save(outputPath, PDFNet.SDFDoc.SaveOptions.e_linearized,);
+  };
+
+  PDFNet.runWithCleanup(convertToPdf, "demo:1666744513958:7ad7d27c0300000000a1c5d134abd70a226183a09a798fec3a5123d64d").then(()=>{
+  fs.readFile(outputPath, (err, data)=>{
+    if(err){
+      res.statusCode = 500;
+      console.log(1)
+      res.end(err);
+    }else{
+      res.setHeader('Content-Type', 'application/pdf');
+      console.log(2)
+      res.end(data);
+    }
+  })
+  }).catch(err=>{
+    res.statusCode = 500;
+    console.log(3)
+    res.end(JSON.stringify(err));
+  })
 })

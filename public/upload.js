@@ -14,6 +14,7 @@ addFileBtn.onclick = e => {
         return;
     }
     console.log('fileinput value: ', fileInput.value);
+    
  console.log('button clicked')
     //ajax pst request to the server
     let xhr = new XMLHttpRequest();
