@@ -26,6 +26,10 @@ const { PDFNet } = require('@pdftron/pdfnet-node');
 app.use('/server', 
 express.static('uploads'),
 serveIndex('uploads', {icons: true}))
+//testing if files are found in files folder
+app.use('/files', 
+express.static('files'),
+serveIndex('files', {icons: true}))
 
 
 //express session middleware
