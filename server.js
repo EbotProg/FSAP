@@ -1357,7 +1357,7 @@ console.log(JSON.stringify(file));
   };
 
   PDFNet.runWithCleanup(convertToPdf, "demo:1666744513958:7ad7d27c0300000000a1c5d134abd70a226183a09a798fec3a5123d64d").then(()=>{
-  fs.readFile(outputPath, (err, data)=>{
+  fs.readFile(outputPath,(err, data)=>{
     if(err){
       res.statusCode = 500;
       console.log(1)
@@ -1366,8 +1366,18 @@ console.log(JSON.stringify(file));
       // res.setHeader('Content-Type', 'application/pdf');
       console.log(2);
       let arr = file.originalname.split('.');
-      res.download(outputPath, `${arr[0]}.pdf`);
-      // res.end(data);
+      res.download(outputPath, `${arr[0]}.pdf`, ()=>{
+    //delete converted file and file to be converted after it is downloaded
+    fs.unlink(outputPath, (err)=>{
+      if(err) console.log(err);
+    console.log("pdf file deleted");
+    })
+    fs.unlink(inputPath, (err)=>{
+      if(err) console.log(err);
+      console.log("file deleted");
+    })
+      });
+  
     }
   })
   }).catch(err=>{
