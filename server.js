@@ -1371,15 +1371,15 @@ console.log(JSON.stringify(file));
       console.log(2);
       let arr = file.originalname.split('.');
       res.download(outputPath, `${arr[0]}.pdf`, ()=>{
-    // //delete converted file and file to be converted after it is downloaded
-    // fs.unlink(outputPath, (err)=>{
-    //   if(err) console.log(err);
-    // console.log("pdf file deleted");
-    // })
-    // fs.unlink(inputPath, (err)=>{
-    //   if(err) console.log(err);
-    //   console.log("file deleted");
-    // })
+    //delete converted file and file to be converted after it is downloaded
+    fs.unlink(outputPath, (err)=>{
+      if(err) console.log(err);
+    console.log("pdf file deleted");
+    })
+    fs.unlink(inputPath, (err)=>{
+      if(err) console.log(err);
+      console.log("file deleted");
+    })
       });
   
     }
