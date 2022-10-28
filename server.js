@@ -459,7 +459,7 @@ console.log(req.files);
     originalName: file.originalname,
     size: file.size,
     uploadDate:  `${day} - ${month} - ${year}`,
-    uploadTime: `${hours} : ${mins} : ${seconds}.${millisecs}`
+    uploadTime: `${hours+1} : ${mins} : ${seconds}.${millisecs}`
    }
    console.log("one file: "+ JSON.stringify(file));
  files.push(fileInfo)
@@ -572,7 +572,7 @@ let filesInfo = req.files;
     originalName: file.originalname,
     size: file.size,
     uploadDate:  `${day} - ${month} - ${year}`,
-    uploadTime: `${hours} : ${mins} : ${seconds}.${millisecs}`
+    uploadTime: `${hours+1} : ${mins} : ${seconds}.${millisecs}`
    }
    console.log("one file: "+ JSON.stringify(file));
  files.push(fileInfo)
