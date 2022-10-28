@@ -509,8 +509,8 @@ const passwordFieldIsEmpty = {
 }
 // upload info is posted to this url when the upload button in the upload page is clicked
 app.post('/upload', upload.array('files', 12), async (req, res)=>{
-let receiverEmail =  req.body.email.split(',');//array holding 
-console.log(req.body.email);
+// let receiverEmail =  req.body.email.split(',');//array holding 
+console.log(req.body);
 if(req.body.password == null || req.body.password == ""){
 passwordFieldIsEmpty.value = true;
 }
@@ -617,10 +617,10 @@ console.log("mssgs: "+ mssgs)
 
 const mailOptions = {
   from: 'filesharerapp2022@gmail.com',
-  to: receiverEmail,
+  to: req.body.email,
   subject: 'File(s) Received',
   html: `<h1 style="font-size: 1.3rem;">FS_app: Shared File(s)</h1>
-        <p style="font-size: 1.1rem;">Hello! You received a package from <span style="font-weight:bold;">${req.session.user}</span></p>
+        <p style="font-size: 1.1rem;">Hello! You have either received a file or files from <span style="font-weight:bold;">${req.session.user}</span></p>
         <ul style="font-size: 1.1rem; padding: 1rem;">
          ${mssgs}
          </ul>
@@ -947,7 +947,7 @@ let id = req.params.id;
   db.collection('files')
   .findOne({_id: ObjectId(req.params.id)})
   .then(async (result)=>{
-    if(result !== {}){
+    if(result !== null){
       req.session.shareSingleInfo = {//single file info which will be used for the email
         originalName: result.originalName,
         id: id
@@ -970,7 +970,6 @@ let id = req.params.id;
 
 //route for sharing a single file from the uploads page
 app.post('/share-file-page/:id', async(req, res)=>{
-  let receiverEmail = req.body.email.split(',');//array holding 
 //get email to use when checking if the user the files have been sent to is an FSApp user
 req.session.senderEmail = req.body.email;
 
@@ -1002,10 +1001,10 @@ tls: {
 
 const mailOptions = {
 from: 'filesharerapp2022@gmail.com',
-to: receiverEmail,
+to: req.body.email,
 subject: 'FS_app',
 html: `<h1 style="font-size: 1.3rem;" >FS_app: Shared File</h1>
-       <p style="font-size: 1.1rem;" >Hello, You received a package from <span style="font-weight:bold;">${req.session.user}</span>
+       <p style="font-size: 1.1rem;" >Hello, You have received a file from <span style="font-weight:bold;">${req.session.user}</span>
        <p style="font-size: 1.1rem;">${req.session.shareSingleInfo.originalName} - <a href="${req.headers.origin}/file/${req.params.id}">download</a></p>
        </p>
        <div style="font-size: 1.1rem;">You don't have an Fs_app account?<br><br> With FS_app, you can share files with 
@@ -1070,10 +1069,10 @@ const transporter = nodemailer.createTransport({
 
 const mailOptions = {
  from: 'filesharerapp2022@gmail.com',
- to: receiverEmail,
+ to: req.body.email,
  subject: 'FS_app',
  html: `<h1 style="font-size: 1.3rem;">FS_app: Shared File</h1>
-        <p style="font-size: 1.1rem;">Hey! You have a package from ${req.session.user}:
+        <p style="font-size: 1.1rem;">Hey! You have received a file from ${req.session.user}:
         <p style="font-size: 1.1rem; padding: 2rem;"> - ${req.session.shareSingleInfo.originalName} - <a href="${req.headers.origin}/file/${req.params.id}">download</a></p>
         </p>
         <div style="font-size: 1.1rem;">You don't have an Fs_app account?<br><br> With FS_app, you can share files with 
@@ -1160,7 +1159,6 @@ res.render('shareMany', {title: "share many", links:  req.session.sharableLinks}
 
 
 app.post('/post-share-many', (req, res)=>{//post route for sharing files through email
-  let receiverEmail = req.body.email.split(',');//array holding 
 
 
 let objectIds = [];//array of object ids
@@ -1209,10 +1207,10 @@ let shareArrInfo = []; //contains the info of the files to be shared
 
   const mailOptions = {
     from: 'filesharerapp2022@gmail.com',
-    to: receiverEmail,
+    to: req.body.email,
     subject: 'FS_app',
     html: `<h1 style="font-size: 1.1rem;">FS_app: Shared file(s)</h1>
-           <p style="font-size: 1.1rem;">Hey! You have a package from ${req.session.user}:
+           <p style="font-size: 1.1rem;">Hey! You have either received a file or files from ${req.session.user}:
            </p>
            <ul style="font-size: 1.1rem; padding: 1rem;">
            ${shareMssgs}
@@ -1326,27 +1324,6 @@ app.post('/convertFromOffice', upload1.single('file'), (req, res)=>{
 let file = req.file;
 console.log(JSON.stringify(file));
 
-  // db.collection('files')
-  // .findOne({uploadName: req.params.filename})
-  // .then(async (result)=>{
-  //   if(result !== null){
-  //     req.session.convertInfo = {
-  //       originalName: result.originalName,
-  //       id: result._id
-  //      }
-    
-      
-     
-  
-
-  //   }else{
-  //     res.send('No file')
-  //   }
-  // })
-  // .catch(err=>{
-
-  //   res.render('shareSingle', {title: 'Share', link: `http://localhost:${port}/file/${req.params.id}`})
-  // })
 
 
 
@@ -1363,9 +1340,8 @@ console.log(JSON.stringify(file));
   PDFNet.runWithCleanup(convertToPdf, "demo:1666744513958:7ad7d27c0300000000a1c5d134abd70a226183a09a798fec3a5123d64d").then(()=>{
   fs.readFile(outputPath,(err, data)=>{
     if(err){
-      res.statusCode = 500;
       console.log(1)
-      res.end(err);
+      res.render('convertToPdf', {title: 'Convert', success: false});
     }else{
       // res.setHeader('Content-Type', 'application/pdf');
       console.log(2);
@@ -1385,9 +1361,8 @@ console.log(JSON.stringify(file));
     }
   })
   }).catch(err=>{
-    res.statusCode = 500;
     console.log(3)
-    res.end(JSON.stringify(err));
+    res.render('convertToPdf', {title: 'Convert', success: false});
   })
 
 
