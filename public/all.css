@@ -12,6 +12,7 @@
     --clr-primary-magenta-400:#774177;
     --form-control: #ffdbff;
     --clr-white: #fff;
+    --bg-dark: #212529;
 
     --ff-1:  'Poppins', sans-serif;
     --ff-2: 'Montserrat', sans-serif;
@@ -56,4 +57,37 @@
 .link-msg:hover{
     color: var(--clr-primary-magenta-900);
     text-decoration: none;
+}
+
+
+/*this is for the share pages */
+.all-addresses, .first-address{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    /* align-items: center;
+    justify-content: center; */
+}
+
+.email-div{
+    flex-grow: 1;
+}
+
+.add-email-btn-icon{
+
+    fill: var(--bg-dark);
+}
+
+.add-email-btn{
+    border: none;
+    /* background-color: var(--clr-white); */
+    width: 2.8rem;
+    height: 3rem;
+    align-self: center;
+}
+
+.remove-btn{
+    border: none;
+    color: red;
+    align-self: center;
 }
