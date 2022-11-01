@@ -96,7 +96,7 @@
       
               <tr>
                   <td class="input-td d-none"><input class="input" onclick="inputChecker()" value="<%= File._id%>"  type="checkbox" /> &nbsp;</td>
-                  <td class="sticky-side bg-light"><%= File.originalName %> - <a class="route" href="/file/<%= File._id %>">download</a></td>
+                  <td class="sticky-side bg-light"><p><%= File.originalName %> - <a class="route" href="/file/<%= File._id %>">download</a></p></td>
                   <td><%= File.size %></td>
                   <td><%= File.uploadDate %></td>
                   <td><%= File.uploadTime %></td>

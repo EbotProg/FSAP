@@ -1,12 +1,12 @@
 const { MongoClient } = require('mongodb');
 
-// let oldUri = 'mongodb://localhost:27017';
- let newUri = 'mongodb+srv://EbotProg:Jesus123@cluster0.sszjs9x.mongodb.net/?retryWrites=true&w=majority'
+let oldUri = 'mongodb://localhost:27017';
+//  let newUri = 'mongodb+srv://EbotProg:Jesus123@cluster0.sszjs9x.mongodb.net/?retryWrites=true&w=majority'
 
 let dbConnection;
 module.exports = {
     connectToDb: (cb) => {
-    MongoClient.connect(newUri)
+    MongoClient.connect(oldUri)
     .then((client)=>{
         dbConnection = client.db('FS_app');
         return cb();
