@@ -133,7 +133,7 @@ table{
 
     .sticky-side{
         position: sticky;
-        left: 2px;
+        left: -3px;
         width: 1rem;
         z-index: 999;
         opacity: 100%;
