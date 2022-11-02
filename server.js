@@ -99,25 +99,34 @@ connectToDb((err)=>{
 //   })
 // ]
 
+
 // post route for registration info
 
 
 app.post('/register', async (req, res)=>{
- 
-// //express validator 
-// const errors = validationResult(req);
-// if(!errors.isEmpty()){
-//   const alert = errors.array();
 
-//   res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, alert} )
-// }
-// //info of registered users
-//   const registrationInfo = {
-//     username: req.body.username,
-//     email: req.body.email,
-//     password: await bcrypt.hash(req.body.password, 10),
-//     verified: false
-//   }
+  req.body.email = req.body.email.split(" ").join("");
+  req.body.username = req.body.username.split(" ").join("");
+  req.body.password = req.body.password.split(" ").join("");
+  req.body.confirmPassword = req.body.confirmPassword.split(" ").join("");
+
+
+
+  //render registration page if username or email are in database
+// let emailTaken = euBooleanInfo.emailTaken;
+// let usernameTaken = euBooleanInfo.usernameTaken;
+let emailIsValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+
+
+/////////////////////////////////////////////////
+
+// boolean info for email and username
+euBooleanInfo = {
+  emailTaken: false,
+  usernameTaken: false
+}
+
 
 
 
@@ -163,7 +172,8 @@ db.collection('user')
 .find()
 .forEach(user=>{ users.push(user)})
 .then(()=>{
-/////////////////////////////////////////////////
+
+
 
 // boolean info for email and username
 euBooleanInfo = {
@@ -179,6 +189,7 @@ users.forEach(user => {
   euBooleanInfo.usernameTaken = true;
   }
 });
+
 // ////////////////////////////////////////////////////////////////
 // //express validator 
 // const errors = validationResult(req);
@@ -192,38 +203,24 @@ users.forEach(user => {
 
 ///////////////////////////////////////////////////////////////
 
-//authentication
-const isEmailCorrect = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-console.log('hey')
 
-//render registration page if username or email are in database
-let emailTaken = euBooleanInfo.emailTaken;
-let usernameTaken = euBooleanInfo.usernameTaken;
 
-// let alert = validationError.alert
-if(euBooleanInfo.emailTaken == true || euBooleanInfo.usernameTaken == true){
-  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, emailTaken, usernameTaken, populateInfo} );
-  return;
-}else if(isEmailCorrect.test(req.body.email) == false || req.body.email == ""){//email validation
-res.render('registration', {title:'registration', emailIsValid: true, header: `http://localhost:${port}/loginPage`, populateInfo})
-console.log('1');
-return;
-}else if(req.body.username.length < 4){
-  res.render('registration', {title:'registration', usernameIsValid: true, header: `http://localhost:${port}/loginPage`, populateInfo})
-console.log('2');
-  return;
-}else if(req.body.password !== req.body.confirmPassword){
-  res.render('registration', {title:'registration', incorrectPassword: true, header: `http://localhost:${port}/loginPage`, populateInfo})
-console.log('3');
-  return;
-}else if(req.body.password.length < 5 || req.body.confirmPassword < 5){
-  res.render('registration', {title:'registration', weakPassword: true, header: `http://localhost:${port}/loginPage`, populateInfo})
-console.log('4');
-  return;
-}
-
-////////
 //add user info into database only if info is valid and not found in database
+
+
+
+
+if(emailIsValid.test(req.body.email) == false || euBooleanInfo.emailTaken == true || req.body.email.length == 0){
+  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, populateInfo, emailIsInvalid: true})
+return;
+}else if(req.body.username.length < 4 || euBooleanInfo.usernameTaken == true){
+  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, populateInfo, usernameIsInvalid: true})
+  return;
+}else if(req.body.password.length < 5 || req.body.password !== req.body.confirmPassword || req.body.confirmPassword.length < 5){
+  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, populateInfo, passwordIsInvalid: true})
+return;
+}
+else{
   db.collection('user')// insert user info into the database
   .insertOne(registrationInfo)
   .then(result=>{
@@ -286,8 +283,8 @@ req.session.emailSent = false;
     res.json({Error: err});
   })
 
-
-////////////////////////////////////////////////
+  
+}
 })
 .catch(err=>{
   if(err){
