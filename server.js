@@ -82,22 +82,28 @@ connectToDb((err)=>{
 
 
 
+// [
+//   body('email', 'Invalid email').isEmail(),
+//   body('username', 'Invalid username').isLength({min: 4}),
+//   body('password').isLength({min: 5}).withMessage('password is weak').custom((value,{req, loc, path})=>{
+//     if(value !== req.body.confirmPassword){
+//       throw new Error("Passwords don't match");
+//     }else{
+//       return "Enter password";
+//     }
+//   })
+// ]
+
 
 // post route for registration info
 
 
-app.post('/register', [
-  body('email', 'Invalid email').isEmail(),
-  body('username', 'Invalid username').isLength({min: 4}),
-  body('password').isLength({min: 5}).withMessage('password is weak').custom((value,{req, loc, path})=>{
-    if(value !== req.body.confirmPassword){
-      throw new Error("Passwords don't match");
-    }else{
-      return "Enter password";
-    }
-  })
-], async (req, res)=>{
- 
+app.post('/register', async (req, res)=>{
+  req.body.email = req.body.email.split(" ").join("");
+  req.body.username = req.body.username.split(" ").join("");
+  req.body.password = req.body.password.split(" ").join("");
+  req.body.confirmPassword = req.body.confirmPassword.split(" ").join("");
+
 // //express validator 
 // const errors = validationResult(req);
 // if(!errors.isEmpty()){
@@ -153,6 +159,31 @@ db.collection('user')
 .find()
 .forEach(user=>{ users.push(user)})
 .then(()=>{
+
+
+////////////////////////////////////////////////////////////////
+//express validator 
+// const errors = validationResult(req);
+// //my validation error object
+// validationError = {}
+// if(!errors.isEmpty()){
+//    validationError.alert = errors.array();
+// }
+
+
+
+///////////////////////////////////////////////////////////////
+
+
+
+//render registration page if username or email are in database
+// let emailTaken = euBooleanInfo.emailTaken;
+// let usernameTaken = euBooleanInfo.usernameTaken;
+let emailIsValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+// let alert = validationError.alert
+
+
 /////////////////////////////////////////////////
 
 // boolean info for email and username
@@ -169,32 +200,20 @@ users.forEach(user => {
   euBooleanInfo.usernameTaken = true;
   }
 });
-////////////////////////////////////////////////////////////////
-//express validator 
-const errors = validationResult(req);
-//my validation error object
-validationError = {}
-if(!errors.isEmpty()){
-   validationError.alert = errors.array();
+
+
+
+if(emailIsValid.test(req.body.email) == false || euBooleanInfo.emailTaken == true || req.body.email.length == 0){
+  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, populateInfo, emailIsInvalid: true})
+return;
+}else if(req.body.username.length < 4 || euBooleanInfo.usernameTaken == true){
+  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, populateInfo, usernameIsInvalid: true})
+  return;
+}else if(req.body.password.length < 5 || req.body.password !== req.body.confirmPassword || req.body.confirmPassword.length < 5){
+  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, populateInfo, passwordIsInvalid: true})
+return;
 }
-
-
-
-///////////////////////////////////////////////////////////////
-
-
-
-//render registration page if username or email are in database
-let emailTaken = euBooleanInfo.emailTaken;
-let usernameTaken = euBooleanInfo.usernameTaken;
-let alert = validationError.alert
-if(!errors.isEmpty() || euBooleanInfo.emailTaken == true || euBooleanInfo.usernameTaken == true){
-  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, emailTaken, usernameTaken, alert, populateInfo} )
-}
-console.log("debugging code",errors.isEmpty(), euBooleanInfo.emailTaken, euBooleanInfo.usernameTaken)
-////////
-//add user info into database only if info is valid and not found in database
-if(errors.isEmpty() && euBooleanInfo.emailTaken == false && euBooleanInfo.usernameTaken == false){
+else{
   db.collection('user')// insert user info into the database
   .insertOne(registrationInfo)
   .then(result=>{

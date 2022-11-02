@@ -51,17 +51,18 @@ body *, body *::after, body *::before{
 
 .welcome-container{
     background-color: var(--clr-blue);
-    border-radius: 10px;
-    padding: 2rem;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 1rem;
 }
 
 .welcome-main{
-    padding: 1rem 0.5rem;
+    padding: 2rem 0.5rem;
     /* background-color: var(--clr-blue); */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .username{
@@ -85,6 +86,7 @@ font-weight: var(--fw-regular);
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 0 !important;
 }
 
 .add-upload-btn{
@@ -94,9 +96,10 @@ font-weight: var(--fw-regular);
     align-items: center;
     gap: 0.4rem;
     font-weight: var(--fw-medium);
-    padding: 1.2rem;
+    /* padding: 1.2rem; */
     font-size: 1.5rem;
     /* width: 15rem; */
+    height: 7rem;
 }
 .add-upload-btn:hover{
     background-color: var(--clr-blue);
@@ -128,11 +131,11 @@ footer{
 @media (min-width: 620px){
     .welcome-btns{
         flex-direction: row;
-        justify-content: space-around;
+        /* justify-content: space-between; */
     }
 
     .add-upload-btn{
-        width: 40%;
-        height: 50vh;
+        width: 50%;
+        height: 13rem;
     }
 }

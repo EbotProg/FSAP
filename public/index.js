@@ -59,14 +59,14 @@ howToUseLink.classList.add('active');
 
 /// registration page code
 
-//function for removing the spaces in the username
-function trimFunction () {
-  const username = document.getElementById('username');
-  let oldValue = username.value;
-  let newValue = oldValue.split(" ").join("");
-  console.log(newValue);
-  username.value = newValue;
-}
+// //function for removing the spaces in the username
+// function trimFunction () {
+//   const username = document.getElementById('username');
+//   let oldValue = username.value;
+//   let newValue = oldValue.split(" ").join("");
+//   console.log(newValue);
+//   username.value = newValue;
+// }
 
 // this code is here to make the sign up button to be disabled after 10s
 const regSubmitBtn = document.getElementById('reg-submit');
