@@ -44,17 +44,54 @@
               </div>
          <% } %>
 
+<!-- this is the authentication part for the registration page-->
+<% if(locals.emailIsValid == true){ %>
+    <div class="alert alert-warning d-flex flex-row justify-content-center align-items-center row gx-2 px-4" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="col-1" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg> 
+          <div class="col-11 px-4">Invalid email</div>
+      </div>
+ <% } %>
+
+ <% if(locals.usernameIsValid == true){ %>
+    <div class="alert alert-warning d-flex flex-row justify-content-center align-items-center row gx-2 px-4" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="col-1" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg> 
+          <div class="col-11 px-4">Invalid username</div>
+      </div>
+ <% } %>
+
+ <% if(locals.incorrectPassword == true){ %>
+    <div class="alert alert-warning d-flex flex-row justify-content-center align-items-center row gx-2 px-4" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="col-1" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg> 
+          <div class="col-11 px-4">Invalid password</div>
+      </div>
+ <% } %>
+
+ <% if(locals.weakPassword == true){ %>
+    <div class="alert alert-warning d-flex flex-row justify-content-center align-items-center row gx-2 px-4" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="col-1" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg> 
+          <div class="col-11 px-4">Password is weak</div>
+      </div>
+ <% } %>
         <!--Simple form verification-->
-        <% if(typeof alert != 'undefined'){ %>
-        <% alert.forEach(error => { %>
-            <div class="alert alert-warning d-flex flex-row justify-content-center align-items-center row gx-2 px-4" role="alert">
+        <%// if(typeof alert != 'undefined'){ %>
+        <%// alert.forEach(error => { %>
+          <!--  <div class="alert alert-warning d-flex flex-row justify-content-center align-items-center row gx-2 px-4" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" class="col-1" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                   </svg> 
-                  <div class="col-11 px-4"><%= error.msg %></div>
-              </div>
-          <% }); %>
-          <% } %>
+                  <div class="col-11 px-4"><%//= error.msg %></div>
+               </div>
+              -->
+          <%// }); %>
+          <%// } %>
          
           <!--message showed if email is not sent-->
            <% if(locals.emailSent == false){ %>
@@ -73,21 +110,21 @@
         <form id="reg-form" action="/register" method="post">
           <div class="row gx-2 gy-3"> 
                 <div class="form-floating text-start">
-                    <input type="email" class="form-control" <% if(locals.populateInfo.email !== undefined){ %> value="<%= locals.populateInfo.email %>" <%} %> name="email" id="email" placeholder="Email"  >
+                    <input type="email" class="form-control" <% if(locals.populateInfo.email !== undefined){ %> value="<%= locals.populateInfo.email %>" <%} %> name="email" id="email" placeholder="Email">
                     <label for="email">Email</label>
                 </div>
                 <div class="form-floating text-start">
-                    <input type="text" class="form-control" onkeyup="trimFunction()" name="username" <% if(locals.populateInfo.username !== undefined){ %> value="<%= locals.populateInfo.username %>" <%} %>  id="username" placeholder="username"  >
+                    <input type="text" class="form-control" name="username" <% if(locals.populateInfo.username !== undefined){ %> value="<%= locals.populateInfo.username %>" <%} %>  id="username" placeholder="username" >
                     <label for="username" class="align-self-start">Username</label>
 
                 </div>
                 <div class="form-floating text-start">
-                    <input type="password" class="form-control" <% if(locals.populateInfo.password !== undefined){ %> value="<%= locals.populateInfo.password %>" <%} %>  name="password" id="password" placeholder="password"  >
+                    <input type="password" class="form-control" <% if(locals.populateInfo.password !== undefined){ %> value="<%= locals.populateInfo.password %>" <%} %>  name="password" id="password" placeholder="password">
                     <label for="password" class="align-self-start">Password</label>
 
                 </div>
                 <div class="form-floating text-start">
-                    <input type="password" class="form-control" <% if(locals.populateInfo.confirmPassword !== undefined){ %> value="<%= locals.populateInfo.confirmPassword %>" <%} %>  name="confirmPassword" id="confirmPassword" placeholder="Confirm password"  >
+                    <input type="password" class="form-control" <% if(locals.populateInfo.confirmPassword !== undefined){ %> value="<%= locals.populateInfo.confirmPassword %>" <%} %>  name="confirmPassword" id="confirmPassword" placeholder="Confirm password">
                     <label for="confirmPassword" class="align-self-start">Confirm password</label>
 
                 </div>

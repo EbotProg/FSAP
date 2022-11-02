@@ -55,8 +55,14 @@ app.get('/', (req, res)=>{
   res.render('site', {title: 'Main site'});
 })
 
-//registration page route
+//registration page without error control
 app.get('/registrationPage', (req, res)=>{
+  res.render('getRegistration', {header: `http://localhost:${port}/loginPage`, title: 'Registration'});
+
+})
+
+//registration page route
+app.get('/registrationPageWithInfo', (req, res)=>{
   // this is the info that will be used to populate the fields
 req.session.populate = {
   username: req.body.username,
@@ -65,7 +71,7 @@ req.session.populate = {
   confirmPassword: req.body.confirmPassword
 }
 let populateInfo = req.session.populate;
-  res.render('registration', {header: `http://localhost:${port}/loginPage`, title: 'Registration', populateInfo});
+  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, populateInfo});
 })
 
 let db;
@@ -80,23 +86,23 @@ connectToDb((err)=>{
 
 
 
-
-
+//this is the code that displayed all errors in the registration page
+// [
+//   body('email', 'Invalid email').isEmail(),
+//   body('username', 'Invalid username').isLength({min: 4}),
+//   body('password').isLength({min: 5}).withMessage('password is weak').custom((value,{req, loc, path})=>{
+//     if(value !== req.body.confirmPassword){
+//       throw new Error("Passwords don't match");
+//     }else{
+//       return "Enter password";
+//     }
+//   })
+// ]
 
 // post route for registration info
 
 
-app.post('/register', [
-  body('email', 'Invalid email').isEmail(),
-  body('username', 'Invalid username').isLength({min: 4}),
-  body('password').isLength({min: 5}).withMessage('password is weak').custom((value,{req, loc, path})=>{
-    if(value !== req.body.confirmPassword){
-      throw new Error("Passwords don't match");
-    }else{
-      return "Enter password";
-    }
-  })
-], async (req, res)=>{
+app.post('/register', async (req, res)=>{
  
 // //express validator 
 // const errors = validationResult(req);
@@ -114,13 +120,6 @@ app.post('/register', [
 //   }
 
 
-//info of registered users
-const registrationInfo = {
-  username: req.body.username,
-  email: req.body.email,
-  password: await bcrypt.hash(req.body.password, 10),
-  verified: false
-}
 
 // this is the info that will be used to populate the fields
 req.session.populateRegistration = {
@@ -130,6 +129,17 @@ req.session.populateRegistration = {
   confirmPassword: req.body.confirmPassword
 }
 let populateInfo = req.session.populateRegistration;
+
+
+//info of registered users
+const registrationInfo = {
+  username: req.body.username,
+  email: req.body.email,
+  password: await bcrypt.hash(req.body.password, 10),
+  verified: false
+}
+
+
 //this will be used when verifying the user
 req.session.other = registrationInfo;
 
@@ -169,32 +179,51 @@ users.forEach(user => {
   euBooleanInfo.usernameTaken = true;
   }
 });
-////////////////////////////////////////////////////////////////
-//express validator 
-const errors = validationResult(req);
-//my validation error object
-validationError = {}
-if(!errors.isEmpty()){
-   validationError.alert = errors.array();
-}
+// ////////////////////////////////////////////////////////////////
+// //express validator 
+// const errors = validationResult(req);
+// //my validation error object
+// validationError = {}
+// if(!errors.isEmpty()){
+//    validationError.alert = errors.array();
+// }
 
 
 
 ///////////////////////////////////////////////////////////////
 
-
+//authentication
+const isEmailCorrect = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+console.log('hey')
 
 //render registration page if username or email are in database
 let emailTaken = euBooleanInfo.emailTaken;
 let usernameTaken = euBooleanInfo.usernameTaken;
-let alert = validationError.alert
-if(!errors.isEmpty() || euBooleanInfo.emailTaken == true || euBooleanInfo.usernameTaken == true){
-  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, emailTaken, usernameTaken, alert, populateInfo} )
+
+// let alert = validationError.alert
+if(euBooleanInfo.emailTaken == true || euBooleanInfo.usernameTaken == true){
+  res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, emailTaken, usernameTaken, populateInfo} );
+  return;
+}else if(isEmailCorrect.test(req.body.email) == false || req.body.email == ""){//email validation
+res.render('registration', {title:'registration', emailIsValid: true, header: `http://localhost:${port}/loginPage`, populateInfo})
+console.log('1');
+return;
+}else if(req.body.username.length < 4){
+  res.render('registration', {title:'registration', usernameIsValid: true, header: `http://localhost:${port}/loginPage`, populateInfo})
+console.log('2');
+  return;
+}else if(req.body.password !== req.body.confirmPassword){
+  res.render('registration', {title:'registration', incorrectPassword: true, header: `http://localhost:${port}/loginPage`, populateInfo})
+console.log('3');
+  return;
+}else if(req.body.password.length < 5 || req.body.confirmPassword < 5){
+  res.render('registration', {title:'registration', weakPassword: true, header: `http://localhost:${port}/loginPage`, populateInfo})
+console.log('4');
+  return;
 }
-console.log("debugging code",errors.isEmpty(), euBooleanInfo.emailTaken, euBooleanInfo.usernameTaken)
+
 ////////
 //add user info into database only if info is valid and not found in database
-if(errors.isEmpty() && euBooleanInfo.emailTaken == false && euBooleanInfo.usernameTaken == false){
   db.collection('user')// insert user info into the database
   .insertOne(registrationInfo)
   .then(result=>{
@@ -221,6 +250,7 @@ if(errors.isEmpty() && euBooleanInfo.emailTaken == false && euBooleanInfo.userna
              <p>Enter this code <\p>
              <p style="padding:2rem; background-color:grey; font-size: 2rem; color: white;">${req.session.otp}<\p>
              <p>to verify your account<\p>
+             <p>Click <a href="${req.headers.origin}/confirmAccount">here<a> to confirm your account<p>
              </body>
 </html>
             `
@@ -255,7 +285,7 @@ req.session.emailSent = false;
   .catch(err=>{
     res.json({Error: err});
   })
-}
+
 
 ////////////////////////////////////////////////
 })
