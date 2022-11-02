@@ -110,22 +110,14 @@ app.post('/register', async (req, res)=>{
   req.body.password = req.body.password.split(" ").join("");
   req.body.confirmPassword = req.body.confirmPassword.split(" ").join("");
 
-
+console.log(req.body.email);
 
   //render registration page if username or email are in database
 // let emailTaken = euBooleanInfo.emailTaken;
 // let usernameTaken = euBooleanInfo.usernameTaken;
-let emailIsValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 
-
-/////////////////////////////////////////////////
-
-// boolean info for email and username
-euBooleanInfo = {
-  emailTaken: false,
-  usernameTaken: false
-}
+  
 
 
 
@@ -173,6 +165,8 @@ db.collection('user')
 .forEach(user=>{ users.push(user)})
 .then(()=>{
 
+  let emailIsValid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 
 
 // boolean info for email and username
@@ -189,26 +183,6 @@ users.forEach(user => {
   euBooleanInfo.usernameTaken = true;
   }
 });
-
-// ////////////////////////////////////////////////////////////////
-// //express validator 
-// const errors = validationResult(req);
-// //my validation error object
-// validationError = {}
-// if(!errors.isEmpty()){
-//    validationError.alert = errors.array();
-// }
-
-
-
-///////////////////////////////////////////////////////////////
-
-
-
-//add user info into database only if info is valid and not found in database
-
-
-
 
 if(emailIsValid.test(req.body.email) == false || euBooleanInfo.emailTaken == true || req.body.email.length == 0){
   res.render('registration', {title: 'Registration', header: `http://localhost:${port}/loginPage`, populateInfo, emailIsInvalid: true})
