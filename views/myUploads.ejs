@@ -79,7 +79,6 @@
           <div class="table-outer-inner-div">
             <table class="table mx-2 border">
               <thead>
-                  <th class="input-td d-none"><input class="delete-all-input" id="choose-all"  type="checkbox" />&nbsp;<span class="delete-all-input">All</span> </th>
                   <th scope="col" class="sticky-side bg-light">File Name</th>
                   <th scope="col">Size</th>
                   <th scope="col">Added on</th>
@@ -88,6 +87,7 @@
                   <th scope="col"></th>
                   <th scope="col"></th>
                   <th scope="col"><button id="select-files-btn" class="btn btn-light">select many</button></th>
+                  <th class="input-td d-none"><input class="delete-all-input" id="choose-all"  type="checkbox" />&nbsp;<span class="delete-all-input">All</span> </th>
 
               </thead>
               <tbody>
@@ -95,8 +95,7 @@
               <% files.forEach(File => {%>    
       
               <tr>
-                  <td class="input-td d-none"><input class="input" onclick="inputChecker()" value="<%= File._id%>"  type="checkbox" /> &nbsp;</td>
-                  <td class="sticky-side bg-light"><%= File.originalName %> - <a class="route" href="/file/<%= File._id %>">download</a></td>
+                  <td class="sticky-side bg-light"><p><%= File.originalName %> - <a class="route" href="/file/<%= File._id %>">download</a></p></td>
                   <td><%= File.size %></td>
                   <td><%= File.uploadDate %></td>
                   <td><%= File.uploadTime %></td>
@@ -109,6 +108,7 @@
                   <td><div class="copytd"><a class="copyBtn uploadPageBtns btn btn-outline-secondary">Copy url</a><span class="message">copied!</span></div></td>
                   <td><a href="/share-file-page/<%= File._id  %>" class="shareBtn uploadPageBtns btn btn-outline-secondary">Share</a></td>
                   <td><a class="uploadPageBtns btn btn-danger" onclick="deleteChecker()" href="/delete/<%= File._id%>">Delete</a></td>
+                  <td class="input-td d-none"><input class="input" onclick="inputChecker()" value="<%= File._id%>"  type="checkbox" /> &nbsp;</td>
 
                 </tr>
              
