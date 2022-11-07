@@ -18,7 +18,6 @@
     --fw-bold: 700;
     --fw-medium: 500;
 
-    
 }
  *, *::before, *::after{
     padding: 0;
@@ -40,6 +39,9 @@ body *, body *::after, body *::before{
     width: 1.7rem;
 }
 
+.nav-link{
+    font-size:1.4rem;
+}
 
 .navbar{
     background-color: var(--clr-white);
@@ -59,14 +61,17 @@ body *, body *::after, body *::before{
     background-color: var(--clr-blue);
     border-radius: 10px;
     padding: 2rem;
+  
 }
+
+
 
 .myuploads-main{
  padding: 0.8rem;
  display: flex;
  flex-direction: column;
  gap: 2rem;
- 
+ padding-top: 2rem;
 }
 
 .copytd{
@@ -90,6 +95,8 @@ align-self: start;
 
 .no-uploads-alert{
     background-color: var(--clr-blue);
+    padding-block: 0.5rem;
+    margin-top: 4rem;
 }
 
 table{
@@ -121,22 +128,24 @@ table{
     }
 
     .table-outer-inner-div{
-        min-width: 70rem;
+        min-width: 80rem;
         
        }
 
-    .sticky-side{
+   /* .sticky-side{
         position: sticky;
         left: -3px;
         width: 1rem;
         z-index: 999;
         opacity: 100%;
-       /* font-size: 14px; */
-    }
+        font-size: 14px; 
+    } */ 
+
+    
 } 
 
 
- @media (min-width: 521px){
+ /* @media (min-width: 521px){
     .sticky-side{
         width: 10rem;
     }
@@ -146,7 +155,7 @@ table{
     .sticky-side{
         width: 20px;
     }
-}
+} */
 
 
 @keyframes rotate {

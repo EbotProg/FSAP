@@ -91,3 +91,19 @@
     color: red;
     align-self: center;
 }
+
+
+/* for the back and forward btns in all pages */
+.top-btns{
+    display: flex;
+    flex-direction: row;
+    gap: 70%;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.back-forward-btns{
+    width: 2rem;
+    height: 2rem;
+}

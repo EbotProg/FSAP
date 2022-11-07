@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="/styles/index.css"> -->
     <link rel="stylesheet" href="/styles/myuploads.css">
+    <link rel="stylesheet" href="/styles/all.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg shadow">
@@ -59,12 +60,24 @@
 
 
 
-<div class="myuploads-main row gx-1 w-100">
+<div class="myuploads-main row gx-1">
+  <div class="top-btns">
+    <svg xmlns="http://www.w3.org/2000/svg" class="back-forward-btns" onclick="history.back()" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+      <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+    </svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="back-forward-btns" onclick="history.forward()" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+      <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+    </svg>
+  </div>
     <div class="my-uploads-container container">
         <div class="title-div text-center">
+          
             <h2 class="title">Your files</h2>
             
+
         </div>
+      
       </div>
 
         <% if(files.length !== 0){ %>
@@ -84,9 +97,9 @@
                   <th scope="col">Added on</th>
                   <th scope="col">Added at</th>
                   <th scope="col">security stats</th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                  <th scope="col"><button id="select-files-btn" class="btn btn-light">select many</button></th>
+                  <th class="hide-td" scope="col"></th>
+                  <th class="hide-td" scope="col"></th>
+                  <th class="hide-td" scope="col"><button id="select-files-btn" class="btn btn-light">select many</button></th>
                   <th class="input-td d-none"><input class="delete-all-input" id="choose-all"  type="checkbox" />&nbsp;<span class="delete-all-input">All</span> </th>
 
               </thead>
@@ -94,22 +107,24 @@
                 
               <% files.forEach(File => {%>    
       
-              <tr>
-                  <td class="sticky-side bg-light"><p><%= File.originalName %> - <a class="route" href="/file/<%= File._id %>">download</a></p></td>
-                  <td><%= File.size %></td>
-                  <td><%= File.uploadDate %></td>
-                  <td><%= File.uploadTime %></td>
-                  <%if(File.noPassword == false){%><td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
-                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-                  </svg></td><%}%><!--this two td's are for the stat-->
-                  <%if(File.noPassword == true){%><td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
-                    <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2zM3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H3z"/>
-                  </svg></td><%}%>
-                  <td><div class="copytd"><a class="copyBtn uploadPageBtns btn btn-outline-secondary">Copy url</a><span class="message">copied!</span></div></td>
-                  <td><a href="/share-file-page/<%= File._id  %>" class="shareBtn uploadPageBtns btn btn-outline-secondary">Share</a></td>
-                  <td><a class="uploadPageBtns btn btn-danger" onclick="deleteChecker()" href="/delete/<%= File._id%>">Delete</a></td>
-                  <td class="input-td d-none"><input class="input" onclick="inputChecker()" value="<%= File._id%>"  type="checkbox" /> &nbsp;</td>
+              <tr class="table-rows">
+                <td class="sticky-side bg-light"><p><%= File.originalName %> - <a class="route" href="/file/<%= File._id %>">download</a></p></td>
+                <td><%= File.size %></td>
+                <td><%= File.uploadDate %></td>
+                <td><%= File.uploadTime %></td>
+                <%if(File.noPassword == false){%><td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                  <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                </svg></td><%}%><!--this two td's are for the stat-->
+                <%if(File.noPassword == true){%><td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
+                  <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2zM3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H3z"/>
+                </svg></td><%}%>
+                <td class="hide-td"><div class="copytd"><a class="copyBtn uploadPageBtns btn btn-outline-secondary">Copy url</a><span class="message">copied!</span></div></td>
+                <td class="hide-td"><a href="/share-file-page/<%= File._id  %>" class="shareBtn uploadPageBtns btn btn-outline-secondary">Share</a></td>
+                <td class="hide-td"><a class="uploadPageBtns btn btn-danger" onclick="deleteChecker()" href="/delete/<%= File._id%>">Delete</a></td>
+                <td class="input-td d-none"><input class="input" value="<%= File._id%>"  type="checkbox" /> &nbsp;</td>
 
+              
+                  
                 </tr>
              
       
@@ -121,9 +136,9 @@
             
 
            <% }else if(files.length == 0){ %>
-          <div class="text-center no-uploads w-100">
+          <div class="container text-center no-uploads d-flex align-items-center justify-content-center">
             <div class="w-100 alert no-uploads-alert alert-dismissible fade show" role="alert">
-                <h1 class="w-100">No files</h1>
+                <h1 class="w-100 fst-italic fw-light">No files</h1>
               </div>
           </div>
             
