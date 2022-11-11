@@ -70,13 +70,22 @@ howToUseLink.classList.add('active');
 
 // this code is here to make the sign up button to be disabled after 10s
 const regSubmitBtn = document.getElementById('reg-submit');
+const signInSubmitBtn = document.getElementById('sign-in-submit');
 function disableBtn() {
   
   regSubmitBtn.classList.add('disabled');
-  regSubmitBtn.style.borderColor = '#ffdbff';
+   regSubmitBtn.style.backgroundColor = '#502050';
+   regSubmitBtn.style.color = '#fff';
   signUpLoader.classList.remove('d-none');
   console.log('clicked')
 }
+function signInLoader() {
+  
+  signUpLoader.classList.remove('d-none');
+  console.log('clicked')
+}
+
+
 
 
 // this code is to confirm the deletion of a file

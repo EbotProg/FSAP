@@ -86,10 +86,11 @@ body *, body *::after, body *::before{
     width: 100%;
 }
 
-.disabled{
-    background-color: var(--clr-primary-magenta-900) !important;
-    border-color: 2px solid var(--clr-primary-magenta-900) !important;
-}
+/* .disabled{
+    background-color: red;
+     background-color: var(--clr-primary-magenta-900) !important;
+    border-color: 2px solid var(--clr-primary-magenta-900) !important; 
+} */
 
 
 .sign-in-btn{
