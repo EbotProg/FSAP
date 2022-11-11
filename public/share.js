@@ -1,5 +1,17 @@
 
 
+  let shareSuccessAlert = document.getElementById('share-success-alert');
+  function hideSuccess() {
+  if(shareSuccessAlert !== null){
+      setTimeout(()=>{
+      shareSuccessAlert.classList.add('d-none');
+      }, 6000)
+  }
+}
+hideSuccess();
+
+
+
 
 // let fileInput = document.getElementById('files');
 // let progress = document.querySelector('progress');

@@ -1,4 +1,24 @@
 
+    //for the success message to disappear after some seconds
+    let verSuccessAlert = document.getElementById('verification-success-alert');
+    let passSuccessAlert = document.getElementById('password-success-alert');
+  function hideSuccess(){
+    if(verSuccessAlert !== null){
+        setTimeout(()=>{
+        verSuccessAlert.classList.add('d-none');
+        }, 6000)
+    }
+    if(passSuccessAlert !== null){
+        setTimeout(()=>{
+        passSuccessAlert.classList.add('d-none');
+        }, 6000)
+    }
+  }
+   
+  hideSuccess();
+
+
+
 
 const copyBtns = document.querySelectorAll('.copyBtn');
 const routes = document.querySelectorAll('.route');
