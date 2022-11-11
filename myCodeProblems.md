@@ -15,11 +15,7 @@ The confirm account page does not have to be reached untill the email is sent
 Add a contact page on the main site and also put some valuable info in the footer
 
 #to-do-list for fsap
--change all button colors to magenta
--correct the place where the trim function was used
--Arrange the sizes of the buttons on the welcome page
--Add a plus button to the receiver's email in the share page
-
+-correct the confirm account functionality
 
 FSAP main cloors
 - Navbar: #fff

@@ -108,7 +108,7 @@
               <% files.forEach(File => {%>    
       
               <tr class="table-rows">
-                <td class="sticky-side bg-light"><p><%= File.originalName %> - <a class="route" href="/file/<%= File._id %>">download</a></p></td>
+                <td class="sticky-side bg-light"><p><%= File.originalName %> - <span class="hide-td"><a class="route" href="/file/<%= File._id %>">download</a></span></p></td>
                 <td><%= File.size %></td>
                 <td><%= File.uploadDate %></td>
                 <td><%= File.uploadTime %></td>

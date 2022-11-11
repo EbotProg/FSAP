@@ -50,13 +50,23 @@
                           <div class="col-11 px-4">Invalid username</div>
                       </div>
                 <% } %>
-                <% if(locals.success == true){ %>
-                    <div class="alert alert-success d-flex flex-row justify-content-center align-items-center row gx-0 w-100">
+                <% if(locals.passwordChangeSuccess == true){ %>
+                    <div id="password-success-alert" class="alert alert-success d-flex flex-row justify-content-center align-items-center row gx-0 w-100">
                         <svg xmlns="http://www.w3.org/2000/svg" class="col-1" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                           </svg>
-                      <div class="col-11 px-4">Verrification successful</div>
+                      <div class="col-11 px-4">Password changed successfully</div>
                       </div>
+
+                <% } %>
+                <% if(locals.success == true){ %>
+                    <div id="verification-success-alert" class="alert alert-success d-flex flex-row justify-content-center align-items-center row gx-0 w-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="col-1" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                          </svg>
+                      <div class="col-11 px-4">Your account has been verified</div>
+                      </div>
+
                 <% } %>
             </div>
        
@@ -70,9 +80,11 @@
                         <input type="password" class="form-control"  name="password" id="password" placeholder="password" required>
                         <label for="password" class="align-self-start">Password</label>
                     </div>
-                    <button type="submit" id="reg-submit" class="sign-in-btn btn btn-primary align-self-center mb-2">Sign in</button>
+                    <button type="submit" id="reg-submit" class="sign-in-btn bottom-btn btn align-self-center mb-2">Sign in</button>
                     <span class="signing-up d-none text-center">Please wait...<br>signing in</span>
                  <a href="/registrationPage" class="sign-up-link">You don't have an account?Sign Up</a>
+                 <a href="/forgot-pass" class="sign-up-link">forgot your password?</a>
+
                 </div>
                 
             </form>
@@ -83,5 +95,21 @@
 
 <script src="/styles/index.js"></script>
 <script src="/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    //for the success message to disappear after some seconds
+    let verSuccessAlert = document.getElementById('verification-success-alert');
+    let passSuccessAlert = document.getElementById('password-success-alert');
+   console.log('hello');
+    if(verSuccessAlert !== null){
+        setTimeout(()=>{
+        verSuccessAlert.classList.add('d-none');
+        }, 6000)
+    }
+    if(passSuccessAlert !== null){
+        setTimeout(()=>{
+        passSuccessAlert.classList.add('d-none');
+        }, 6000)
+    }
+</script>
 </body>
 </html>

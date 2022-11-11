@@ -256,7 +256,7 @@ else{
     const mailOptions = {
       from: 'filesharerapp2022@gmail.com',
       to: registrationInfo.email,
-      subject: 'FS_app',
+      subject: 'FS_app:Confirm Account',
       html: `<!DOCTYPE html>
       <html lang="en">
       <head>
@@ -269,7 +269,6 @@ else{
              <p>Enter this code <\p>
              <p style="padding:2rem; background-color:grey; font-size: 2rem; color: white;">${req.session.otp}<\p>
              <p>to verify your account<\p>
-             <p>Click <a href="${req.headers.origin}/confirmAccount">here<a> to confirm your account<p>
              </body>
 </html>
             `
@@ -318,6 +317,202 @@ req.session.emailSent = false;
 
 
 })
+
+
+
+
+
+//***Recent change */
+
+//route for the confirmation code of the password change
+app.get('/confirm-pass-change', (req, res)=>{
+
+
+  // //generate otp code
+  // let otp = `${Math.floor(1000 + Math.random() * 9000)}`
+  // req.session.newPassOtp = otp;
+
+
+  //nodemailer
+  //email for to send code for confirmation of password change
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  secure: 587,
+  auth: {
+    user: 'filesharerapp2022@gmail.com',
+    pass: 'yybtqrfbgjuzmypl'
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+const mailOptions = {
+  from: 'filesharerapp2022@gmail.com',
+  to: req.session.newPassEmail,
+  subject: 'FSAP: Change password',
+  html: `<p style="padding: 1rem;">Hey ${req.session.newPassUsername} <br> Enter the following code to change your password</p>
+  <p style="padding:2rem; background-color:grey; font-size: 2rem; color: white;">${req.session.newPassOtp}<\p>
+         
+        `
+}
+
+transporter.sendMail(mailOptions, (err, info)=>{
+  if(err){
+    console.log(err);
+ 
+    res.render('confirmPassChange', {title: 'Confirm password change', emailSent: false});
+  } 
+  else{
+    res.render('confirmPassChange', {title: 'Confirm password change', emailSent: true});
+    console.log("Email sent"+ info.response);
+  }
+})
+
+})
+
+//post route for confirm pass change
+app.post('/confirm-pass-change', (req, res)=>{
+  if(req.body.newPassCode !== req.session.newPassOtp){
+    res.render('confirmPassChange', {title: 'Confirm password change', invalidCode: true});
+  return;
+  }
+
+res.redirect('/new-pass');
+
+
+})
+
+//forgot password route
+app.get('/forgot-pass', (req, res)=>{
+  res.render('forgot-password', {title: 'forgot password'});
+})
+
+app.post('/forgot-pass', (req, res)=>{
+  console.log(req.body.email);
+  req.session.newPassEmail = req.body.email;
+//checking database if email is present and if the user has a verified account
+  db.collection('user')
+.findOne({email: req.body.email})
+.then((result)=>{
+ if(result !== null){
+    //generate otp code
+    let otp = `${Math.floor(1000 + Math.random() * 9000)}`
+    req.session.newPassOtp = otp;
+
+    //keeping track of username so that it can be used when sending code to user
+    req.session.newPassUsername = result.username;
+    console.log(req.session.newPassUsername);
+   
+
+   res.redirect('/confirm-pass-change');
+  }else{
+   res.render('forgot-password', {title: 'forgot password', incorrectEmail: true})
+  }
+  
+})
+.catch(err=>{
+  if(err) console.log(err);
+  else{
+    res.render('forgot-password', {title: 'forgot password', err: true})
+  }
+})
+
+
+})
+
+//the route for the case where your info is incorrect
+app.get('/wrong-info', (req, res)=>{
+
+  db.collection('user')
+  .deleteOne({email: req.session.other.email})
+  .then(result=>{
+  res.redirect('/registrationPage');
+  })
+  .catch(err=>{
+    if(err) console.log(err);
+    else{
+      res.render('confirmAccount', {title: 'Confirm Account'})
+    }
+  })
+
+})  
+
+
+//route for creating new password
+app.get('/new-pass', (req, res)=>{
+  res.render('newPassword', {title: 'Create New Password'});
+})
+
+app.post('/new-pass', async (req, res)=>{
+  req.body.password = req.body.password.split(" ").join("");
+  req.body.confirmPassword = req.body.confirmPassword.split(" ").join("");
+console.log('it works', req.session.newPassEmail);
+
+ if(req.body.password.length < 5 || req.body.password !== req.body.confirmPassword || req.body.confirmPassword.length < 5){
+    res.render('newPassword', {title: 'Create New Password', passwordIsInvalid: true})
+  return;
+  }
+  else{
+ 
+
+    db.collection('user')
+.updateOne({email: req.session.newPassEmail}, {$set: {password: await bcrypt.hash(req.body.password, 10)}})
+.then(() =>{
+  
+
+  
+  //email to tell user that his/her password has been changed successfully
+    //nodemailer
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  secure: 587,
+  auth: {
+    user: 'filesharerapp2022@gmail.com',
+    pass: 'yybtqrfbgjuzmypl'
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+const mailOptions = {
+  from: 'filesharerapp2022@gmail.com',
+  to: req.session.newPassEmail,
+  subject: 'FSAP: Password Changed Successfully',
+  html: `<p style="padding: 1rem;">Hey <span style="font-weight: bold">${req.session.newPassUsername}</span> <br> Your password has been changed successfully</p>
+  <p>You can sign in to FSAP by clicking <a href="${req.headers.origin}/loginPage">here</a></p>
+         
+        `
+}
+
+transporter.sendMail(mailOptions, (err, info)=>{
+  if(err){
+    console.log(err);
+ 
+    res.render('newPassword', {title: 'Create New Password', err: true});
+  } 
+  else{
+    res.render('getLogin', {title: 'Login', passwordChangeSuccess: true});
+    console.log("Email sent"+ info.response);
+  }
+})
+   
+})
+.catch(err=>{
+  if(err) console.log(err);
+})
+
+  }
+
+})
+
+//**End of first recent change */
+
+
+
+
 
 
 // login page route
@@ -379,9 +574,9 @@ const transporter = nodemailer.createTransport({
 const mailOptions = {
   from: 'filesharerapp2022@gmail.com',
   to: req.session.other.email,
-  subject: 'FS_app',
-  html: `<h1>Verrified Account</h1>
-         <p>Hey ${req.session.other.username}, your account has been verrified successfully
+  subject: 'FS_app: Successful Account Verification',
+  html: `<h1>Verified Account</h1>
+         <p>Hey ${req.session.other.username}, your account has been verified successfully
          <a href="${req.headers.origin}/loginPage">Sign in</a></p>
         `
 }
